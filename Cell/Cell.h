@@ -3,7 +3,6 @@
 
 #include <string>
 
-
 class Cell {
 public:
     Cell() = default;

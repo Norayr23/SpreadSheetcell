@@ -21,7 +21,7 @@ double Cell::getDoubleValue() const {
     double res = 0;
     ss >> res;
     if (ss.fail()) {
-        throw std::ios_base::failure("Fail convert value to double");
+        throw std::ios_base::failure("Fail covert value to duble");
     }
     return res;
 }
