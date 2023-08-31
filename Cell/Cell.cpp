@@ -11,7 +11,7 @@ int Cell::getIntValue() const {
     int res = 0;
     ss >> res;
     if (ss.fail()) {
-        throw std::ios_base::failure("Fail covert value to int");
+        throw std::ios_base::failure("Fail convert value to int");
     }
     return res;
 
@@ -21,7 +21,7 @@ double Cell::getDoubleValue() const {
     double res = 0;
     ss >> res;
     if (ss.fail()) {
-        throw std::ios_base::failure("Fail covert value to duble");
+        throw std::ios_base::failure("Fail convert value to double");
     }
     return res;
 }
