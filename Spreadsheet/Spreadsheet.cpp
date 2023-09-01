@@ -3,6 +3,7 @@
 #include <cstddef>
 #include <iostream>
 #include <utility>
+#include <stdexcept>
 
 Spreadsheet::Spreadsheet(const int row, const int column) : m_col(column), m_row(row) {
     if (row <= 0 || column <= 0) {
@@ -150,6 +151,46 @@ void Spreadsheet::clear() {
     m_cell = nullptr;
     m_col = 0;
     m_row = 0;
+}
+Cell* Spreadsheet::operator[](const size_t i) {
+    if (i >= getRow()) {
+        throw std::out_of_range("");
+    }
+    return m_cell[i];
+}
+const Cell* Spreadsheet::operator[](const size_t i) const {
+    return const_cast<Spreadsheet&>(*this).operator[](i);
+}
+std::ostream& operator<<(std::ostream& in, const Spreadsheet& sc) {
+    for (int i = 0; i < sc.getRow(); ++i) {
+        for (int j = 0; j < sc.getColumn(); ++j) {
+            if (sc[i][j].isEmpty()) {
+                in << ". ";
+            }
+            else {
+                in << sc[i][j].getStringValue() << " ";
+            }
+        }
+        in  << "\n";
+    }
+    return in;
+}
+Spreadsheet Spreadsheet::operator+(const Spreadsheet& rhs) const {
+    int row = getRow() + rhs.getRow();
+    int col = std::max(getColumn(), rhs.getColumn());
+    Spreadsheet res(row, col);
+    int i = 0;
+    for (; i < getRow(); ++i) {
+        for (int j = 0; j < getColumn(); ++j) {
+            res[i][j].setStringValue(getCell(i,j)->getStringValue());
+        }
+    }
+    for (int l = 0; l < rhs.getRow(); ++i, ++l) {
+        for (int j = 0; j < rhs.getColumn(); ++j) {
+            res[i][j].setStringValue(rhs.getCell(l,j)->getStringValue());
+        }
+    }
+    return res;
 }
 Spreadsheet::~Spreadsheet() {
     clear();

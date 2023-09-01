@@ -3,6 +3,7 @@
 
 #include "../Cell/Cell.h"
 #include <cstddef>
+#include <ostream>
 
 class Spreadsheet {
 public:
@@ -24,6 +25,9 @@ public:
     void setCell( const size_t, const size_t, const std::string&);
     void print() const;
     void clear();
+    Cell* operator[](size_t);
+    const Cell* operator[](size_t) const;
+    Spreadsheet operator+(const Spreadsheet&) const;
     ~Spreadsheet();
 private:
     Cell** m_cell;
@@ -32,3 +36,5 @@ private:
 };
 
 #endif
+
+std::ostream& operator<<(std::ostream&, const Spreadsheet&);
