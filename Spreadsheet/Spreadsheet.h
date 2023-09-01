@@ -34,7 +34,7 @@ private:
     int m_row;
     int m_col;    
 };
+std::ostream& operator<<(std::ostream&, const Spreadsheet&);
 
 #endif
 
-std::ostream& operator<<(std::ostream&, const Spreadsheet&);
