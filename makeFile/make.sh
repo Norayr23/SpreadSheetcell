@@ -1,1 +1,1 @@
-g++ ../main/main.cpp ../SpreadSheetCell/SpreadSheetCell.cpp ../Cell/Cell.cpp 
+g++ ../main/main.cpp ../Spreadsheet/Spreadsheet.cpp ../Cell/Cell.cpp 

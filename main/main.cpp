@@ -1,11 +1,11 @@
-#include "../SpreadSheetCell/SpreadSheetCell.h"
+#include "../Spreadsheet/Spreadsheet.h"
 
 #include <iostream>
 
 using namespace std;
 
 int main() {
-    SpreadsheetCell ob;
+    Spreadsheet ob;
     ob.addRow(2); // ավելացնում է երկու տող
 
 Cell* c = ob.getCell(1, 1); // nullptr, աղյուսակն ունի երկու տող, բայց չունի սյունակներ

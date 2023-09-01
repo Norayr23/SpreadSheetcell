@@ -1,17 +1,17 @@
-#ifndef SPREADSHEETCELL_H
-#define SPREADSHEETCELL_H
+#ifndef SPREADSHEET_H
+#define SPREADSHEET_H
 
 #include "../Cell/Cell.h"
 #include <cstddef>
 
-class SpreadsheetCell {
+class Spreadsheet {
 public:
-    SpreadsheetCell() : m_cell{}, m_row{}, m_col{} {}
-    SpreadsheetCell(const int row, const int column);
-    SpreadsheetCell(const SpreadsheetCell& src);
-    SpreadsheetCell(SpreadsheetCell&& src) noexcept;
-    SpreadsheetCell& operator=(const SpreadsheetCell& src);
-    SpreadsheetCell& operator=(SpreadsheetCell&& src) noexcept;
+    Spreadsheet() : m_cell{}, m_row{}, m_col{} {}
+    Spreadsheet(const int row, const int column);
+    Spreadsheet(const Spreadsheet& src);
+    Spreadsheet(Spreadsheet&& src) noexcept;
+    Spreadsheet& operator=(const Spreadsheet& src);
+    Spreadsheet& operator=(Spreadsheet&& src) noexcept;
     void addRow(const int count);
     void addColumn(const int count);
     void removeColumn(const size_t index);
@@ -24,7 +24,7 @@ public:
     void setCell( const size_t, const size_t, const std::string&);
     void print() const;
     void clear();
-    ~SpreadsheetCell();
+    ~Spreadsheet();
 private:
     Cell** m_cell;
     int m_row;

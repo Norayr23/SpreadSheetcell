@@ -1,10 +1,10 @@
-#include "SpreadSheetCell.h"
+#include "Spreadsheet.h"
 
 #include <cstddef>
 #include <iostream>
 #include <utility>
 
-SpreadsheetCell::SpreadsheetCell(const int row, const int column) : m_col(column), m_row(row) {
+Spreadsheet::Spreadsheet(const int row, const int column) : m_col(column), m_row(row) {
     if (row <= 0 || column <= 0) {
         m_row = 0;
         m_col = 0;
@@ -16,19 +16,19 @@ SpreadsheetCell::SpreadsheetCell(const int row, const int column) : m_col(column
         m_cell[i] = new Cell[column];
     }
 }
-SpreadsheetCell::SpreadsheetCell(const SpreadsheetCell& src) : SpreadsheetCell(src.getRow(), src.getColumn()) {
+Spreadsheet::Spreadsheet(const Spreadsheet& src) : Spreadsheet(src.getRow(), src.getColumn()) {
     for (int i = 0; i < getRow(); ++i) {
         for (int j = 0; j < getColumn(); ++j) {
              getCell(i, j)->setStringValue(src.getCell(i, j)->getStringValue());
         }
     }
 }
-SpreadsheetCell::SpreadsheetCell(SpreadsheetCell&& src) noexcept {
+Spreadsheet::Spreadsheet(Spreadsheet&& src) noexcept {
     m_cell = std::exchange(src.m_cell, nullptr);
     m_row = std::exchange(src.m_row, 0);
     m_col = std::exchange(src.m_col, 0);
 }
-SpreadsheetCell& SpreadsheetCell::operator=(const SpreadsheetCell& src) {
+Spreadsheet& Spreadsheet::operator=(const Spreadsheet& src) {
     if (getRow() == src.getRow() && getColumn() == src.getColumn()) {
         for (int i = 0; i < getRow(); ++i) {
             for(int j = 0; j < getColumn(); ++j) {
@@ -37,19 +37,19 @@ SpreadsheetCell& SpreadsheetCell::operator=(const SpreadsheetCell& src) {
         }
         return *this;
     }
-    SpreadsheetCell tmp(src);
+    Spreadsheet tmp(src);
     std::swap(m_cell, tmp.m_cell);
     std::swap(m_col, tmp.m_col);
     std::swap(m_row, tmp.m_row);
     return *this;
 }
-SpreadsheetCell& SpreadsheetCell::operator=(SpreadsheetCell&& src) noexcept {
+Spreadsheet& Spreadsheet::operator=(Spreadsheet&& src) noexcept {
     m_cell = std::exchange(src.m_cell, nullptr);
     m_row = std::exchange(src.m_row, 0);
     m_col = std::exchange(src.m_col, 0);
     return *this;
 }
-void SpreadsheetCell::addRow(const int count) {
+void Spreadsheet::addRow(const int count) {
     if (count <= 0) {
         return;
     }
@@ -67,7 +67,7 @@ void SpreadsheetCell::addRow(const int count) {
     m_row = newRow;
     m_cell = tmp;
 }
-void SpreadsheetCell::addColumn(const int count) {
+void Spreadsheet::addColumn(const int count) {
      if (count <= 0) {
         return;
     }
@@ -82,7 +82,7 @@ void SpreadsheetCell::addColumn(const int count) {
     }
     m_col = newColumn;
 }
-void SpreadsheetCell::removeColumn(const size_t index) {
+void Spreadsheet::removeColumn(const size_t index) {
      if (index >= getColumn()) {
         return;
     }
@@ -93,7 +93,7 @@ void SpreadsheetCell::removeColumn(const size_t index) {
     }
     --m_col;
 }
-void SpreadsheetCell::removeRow(const size_t index) {
+void Spreadsheet::removeRow(const size_t index) {
     if (index >= getRow()) {
         return;
     }
@@ -104,31 +104,31 @@ void SpreadsheetCell::removeRow(const size_t index) {
     m_cell[getRow() - 1] = nullptr;
     --m_row;
 }
-const Cell* SpreadsheetCell::getCell(const size_t row, const size_t column) const {
-    return static_cast<const Cell*>(const_cast<SpreadsheetCell&>(*this).getCell(row, column));
+const Cell* Spreadsheet::getCell(const size_t row, const size_t column) const {
+    return static_cast<const Cell*>(const_cast<Spreadsheet&>(*this).getCell(row, column));
 }
-Cell* SpreadsheetCell::getCell(const size_t row, const size_t column)  {
+Cell* Spreadsheet::getCell(const size_t row, const size_t column)  {
     if (row > getRow() || column > getColumn()) {
         return nullptr;
     }
     return m_cell[row] + column;
     
 }
-void SpreadsheetCell::setCell(const size_t row,  const size_t col, const Cell& cell) {
+void Spreadsheet::setCell(const size_t row,  const size_t col, const Cell& cell) {
      if (row >= getRow() || col >= getColumn()) {
         return;
     }
      m_cell[row][col] = cell;
 }
-void SpreadsheetCell::setCell(const size_t row, const size_t col, const std::string& str) {
+void Spreadsheet::setCell(const size_t row, const size_t col, const std::string& str) {
     if (row >= getRow() || col >= getColumn()) {
         return;
     }
     m_cell[row][col].setStringValue(str);
 }
-int SpreadsheetCell::getRow() const { return m_row; }
-int SpreadsheetCell::getColumn() const { return m_col; }
-void SpreadsheetCell::print() const {
+int Spreadsheet::getRow() const { return m_row; }
+int Spreadsheet::getColumn() const { return m_col; }
+void Spreadsheet::print() const {
     for (int i = 0; i < getRow(); ++i) {
         for (int j = 0; j < getColumn(); ++j) {
             if (m_cell[i][j].isEmpty()) {
@@ -142,7 +142,7 @@ void SpreadsheetCell::print() const {
     }
     std::cout << std::endl;
 }
-void SpreadsheetCell::clear() {
+void Spreadsheet::clear() {
      for (int i = 0; i < getRow(); ++i) {
       delete [] m_cell[i];
     }
@@ -151,6 +151,6 @@ void SpreadsheetCell::clear() {
     m_col = 0;
     m_row = 0;
 }
-SpreadsheetCell::~SpreadsheetCell() {
+Spreadsheet::~Spreadsheet() {
     clear();
 }
